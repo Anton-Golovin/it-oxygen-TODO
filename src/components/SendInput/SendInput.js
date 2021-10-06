@@ -25,9 +25,9 @@ export default function SendInput(props) {
 
     const pushItem = (e) => {
         e.preventDefault();
-        if (item.text) {
-            onAddItem(item)
-            setItem({
+        if (item.text) { // 4
+            onAddItem(item) // 3.1 добавление
+            setItem({ // 3.2 очистка
                 ...item,
                 id: uuidv4(),
                 text: '',
@@ -36,7 +36,7 @@ export default function SendInput(props) {
     };
 
     const onChange = (event) => (
-        event.target.value.length < 50
+        event.target.value.length < 50 // 2
         && setItem({
             ...item,
             id: uuidv4(),

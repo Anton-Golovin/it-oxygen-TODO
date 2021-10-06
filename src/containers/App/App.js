@@ -30,8 +30,8 @@ function App() {
 
     const onAddItem = (value) => {
         setItemsList([
-            ...itemsList,
-            value
+            value,
+            ...itemsList // 3.3
         ])
     }
 
@@ -43,10 +43,20 @@ function App() {
         let newArray;
         if (mode === 'delete') {
             newArray = filter(itemsList, item => item.id !== id);
-        } else {
+        } else if (
+            mode === 'star' // 6.1
+            || mode === 'check' // 7
+        ) {
             newArray = itemsList.map(item => {
                 if (item.id === id) {
-                    item[mode] = value || !item[mode];
+                    item[mode] = !item[mode]; // 6.1 + 7
+                }
+                return item;
+            })
+        } else if (mode === 'edit') {
+            newArray = itemsList.map(item => {
+                if (item.id === id) {
+                    item.edit = value;
                 }
                 return item;
             })
@@ -72,7 +82,8 @@ function App() {
                         <Search onSearch={onSearch} />
                     </header>
                     <SendInput onAddItem={onAddItem}/>
-                    <Items items={sortBy(sortBy(currentList, item => item.check === true), item => item.star === false)}
+                    <Items items={
+                        sortBy(sortBy(currentList, item => item.check === true), item => item.star === false)} // 5 + 6.2 + 6.3
                            onChangeItem={onChangeItem}
                     />
                     <Clear onClear={onClear}/>
